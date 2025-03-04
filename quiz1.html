@@ -20,6 +20,7 @@
             max-width: 600px;
             margin: 30px auto;
             padding: 20px;
+            position: relative;
         }
 
         h1 {
@@ -34,7 +35,6 @@
             margin-bottom: 20px;
             font-size: 14px;
             line-height: 1.5;
-            color: #817C7C;
         }
 
         .question-box {
@@ -42,6 +42,7 @@
             padding: 25px;
             border-radius: 5px;
             margin-bottom: 20px;
+            margin-top: 100px;
         }
 
         .question {
@@ -58,42 +59,21 @@
 
         .option {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 10px;
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        .option input {
-            display: none;
         }
 
         .option-label {
             font-size: 14px;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-
-        .option.selected .option-label {
-            background-color: #d3d3d3;
-        }
-
-        .option.correct .option-label {
-            background-color: #8ac926;
-            color: white;
-        }
-
-        .option.wrong .option-label {
-            background-color: #ff595e;
-            color: white;
         }
 
         .button-container {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            margin-top: 10px;
         }
 
-        .next-button {
+        .back-button {
             background-color: #8a56e8;
             color: white;
             border: none;
@@ -104,63 +84,159 @@
             text-decoration: none;
             display: inline-block;
             text-align: center;
+        }
+        .next-button{
+            background-color: #8a56e8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 28rem;
             margin-top: 5rem;
         }
 
-        .next-button:hover {
+        .back-button:hover, .next-button:hover {
             background-color: #7645d9;
         }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Soft Skills Quiz</h1>
-        <p class="intro-text">
-            Do you ever doubt your soft skills, wondering whether you know them or not? Worry not! I got you for that, 
-            below are a series of multiple choice questions to help you test your soft skills.
-        </p>
-
-        <div class="question-box">
-            <p class="question">1. Which of the following is an example of good communication?</p>
-            <div class="options">
-                <div class="option" onclick="selectOption(this, false)">
-                    <span>a.</span>
-                    <span class="option-label">Interrupting others while they are speaking.</span>
-                </div>
-                <div class="option" onclick="selectOption(this, true)">
-                    <span>b.</span>
-                    <span class="option-label">Listening actively and responding clearly.</span>
-                </div>
-                <div class="option" onclick="selectOption(this, false)">
-                    <span>c.</span>
-                    <span class="option-label">Avoid conversations altogether.</span>
-                </div>
-                <div class="option" onclick="selectOption(this, false)">
-                    <span>d.</span>
-                    <span class="option-label">Paying attention while others.</span>
-                </div>
+        <a href="quiz1.html" class="back-button">&#8592; Back</a>
+        
+        <div class="question-box" id="questionBox">
+            <p class="question" id="question">Question will appear here</p>
+            <div class="options" id="options">
+                <!-- Options will be injected here -->
             </div>
         </div>
+
         <div class="button-container">
-            <button class="next-button" onclick="location.href='quiz2.html'">Next</button>
+            <button class="next-button" id="nextButton" onclick="nextQuestion()" disabled>Next Question</button>
+        </div>
+
+        <div class="feedback" id="feedback"></div>
+        <div class="score-container" id="scoreContainer" style="display:none;">
+            <p>Your score is: <span id="score"></span></p>
         </div>
     </div>
 
     <script>
-        function selectOption(selectedOption, isCorrect) {
-            // Remove previous selections
-            document.querySelectorAll('.option').forEach(option => {
-                option.classList.remove('selected', 'correct', 'wrong');
+        // Quiz data for each question
+        const quizData = [
+            {
+                question: "Which of the following is an example of good communication?",
+                options: [
+                    "Interrupting others while they are speaking.",
+                    "Listening actively and responding clearly.",
+                    "Avoid conversations altogether.",
+                    "Paying attention while others are speaking."
+                ],
+                correctAnswer: 1 // Index of correct answer
+            },
+            {
+                question: "What do you understand by effective communication?",
+                options: [
+                    "Giving feedback.",
+                    "Communicating with people effectively.",
+                    "Understanding what people need and provide.",
+                    "Understanding clearly and giving feedback on time."
+                ],
+                correctAnswer: 1
+            },
+            // Add more questions as needed
+        ];
+
+        // Initialize variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        const nextButton = document.getElementById("nextButton");
+        const feedbackElement = document.getElementById("feedback");
+        const scoreElement = document.getElementById("score");
+        const scoreContainer = document.getElementById("scoreContainer");
+
+        // Function to load the current question
+        function loadQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            document.getElementById("question").innerText = currentQuestion.question;
+
+            // Display options
+            const optionsElement = document.getElementById("options");
+            optionsElement.innerHTML = ""; // Clear previous options
+            currentQuestion.options.forEach((option, index) => {
+                const optionLabel = document.createElement('label');
+                optionLabel.classList.add('option');
+
+                const radioInput = document.createElement('input');
+                radioInput.type = 'radio';
+                radioInput.name = 'answer';
+                radioInput.value = index;
+                radioInput.onclick = enableNextButton;
+
+                optionLabel.appendChild(radioInput);
+                optionLabel.appendChild(document.createTextNode(option));
+                optionsElement.appendChild(optionLabel);
             });
-            
-            // Apply correct or wrong class
-            selectedOption.classList.add('selected');
-            if (isCorrect) {
-                selectedOption.classList.add('correct');
+
+            // Reset feedback and disable the next button initially
+            feedbackElement.innerHTML = "";
+            nextButton.disabled = true;
+        }
+
+        // Enable the "Next Question" button when the user selects an answer
+        function enableNextButton() {
+            nextButton.disabled = false;
+            feedbackElement.innerHTML = "";
+        }
+
+        // Check if the selected answer is correct
+        function checkAnswer(selectedAnswer) {
+            const correctAnswer = quizData[currentQuestionIndex].correctAnswer;
+            if (selectedAnswer == correctAnswer) {
+                score++;
+                feedbackElement.innerHTML = "Correct!";
             } else {
-                selectedOption.classList.add('wrong');
+                feedbackElement.innerHTML = "Incorrect!";
             }
         }
+
+        // Function to proceed to the next question
+        function nextQuestion() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            if (!selectedOption) return; // Ensure an answer is selected
+
+            const selectedAnswer = parseInt(selectedOption.value);
+            checkAnswer(selectedAnswer);
+
+            // Move to the next question
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < quizData.length) {
+                setTimeout(loadQuestion, 1000); // Wait before loading next question
+            } else {
+                showFinalScore();
+            }
+        }
+
+        // Function to display the final score
+        function showFinalScore() {
+            document.getElementById("question").innerText = "Quiz Completed!";
+            document.getElementById("options").innerHTML = "";
+            nextButton.style.display = "none"; // Hide the next button
+            scoreElement.innerText = score;
+            scoreContainer.style.display = "block"; // Show final score
+        }
+
+        // Initial load
+        loadQuestion();
     </script>
 </body>
 </html>
