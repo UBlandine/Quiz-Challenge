@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Skills Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #817C7C;
+        }
+
+        .question-box {
+            background-color: #f8f7f2;
+            padding: 25px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-left: 50px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .option input {
+            display: none;
+        }
+
+        .option-label {
+            font-size: 14px;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .option.selected .option-label {
+            background-color: #d3d3d3;
+        }
+
+        .option.correct .option-label {
+            background-color: #8ac926;
+            color: white;
+        }
+
+        .option.wrong .option-label {
+            background-color: #ff595e;
+            color: white;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .next-button {
+            background-color: #8a56e8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            margin-top: 5rem;
+        }
+
+        .next-button:hover {
+            background-color: #7645d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Soft Skills Quiz</h1>
+        <p class="intro-text">
+            Do you ever doubt your soft skills, wondering whether you know them or not? Worry not! I got you for that, 
+            below are a series of multiple choice questions to help you test your soft skills.
+        </p>
+
+        <div class="question-box">
+            <p class="question">1. Which of the following is an example of good communication?</p>
+            <div class="options">
+                <div class="option" onclick="selectOption(this, false)">
+                    <span>a.</span>
+                    <span class="option-label">Interrupting others while they are speaking.</span>
+                </div>
+                <div class="option" onclick="selectOption(this, true)">
+                    <span>b.</span>
+                    <span class="option-label">Listening actively and responding clearly.</span>
+                </div>
+                <div class="option" onclick="selectOption(this, false)">
+                    <span>c.</span>
+                    <span class="option-label">Avoid conversations altogether.</span>
+                </div>
+                <div class="option" onclick="selectOption(this, false)">
+                    <span>d.</span>
+                    <span class="option-label">Paying attention while others.</span>
+                </div>
+            </div>
+        </div>
+        <div class="button-container">
+            <button class="next-button" onclick="location.href='quiz2.html'">Next</button>
+        </div>
+    </div>
+
+    <script>
+        function selectOption(selectedOption, isCorrect) {
+            // Remove previous selections
+            document.querySelectorAll('.option').forEach(option => {
+                option.classList.remove('selected', 'correct', 'wrong');
+            });
+            
+            // Apply correct or wrong class
+            selectedOption.classList.add('selected');
+            if (isCorrect) {
+                selectedOption.classList.add('correct');
+            } else {
+                selectedOption.classList.add('wrong');
+            }
+        }
+    </script>
+</body>
+</html>

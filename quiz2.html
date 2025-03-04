@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soft Skills Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: normal;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .question-box {
+            background-color: #f8f7f2;
+            padding: 25px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            margin-top: 100px;
+        }
+
+        .question {
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-left: 50px;
+        }
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .option-label {
+            font-size: 14px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .back-button {
+            background-color: #8a56e8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        .next-button{
+            background-color: #8a56e8;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 30px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 28rem;
+            margin-top: 5rem;
+        }
+
+        .back-button:hover, .next-button:hover {
+            background-color: #7645d9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="quiz1.html" class="back-button">&#8592; Back</a>
+        
+        <div class="question-box">
+            <p class="question">2. What do you understand by effective communication?</p>
+            <div class="options">
+                <div class="option">
+                    <span>a.</span>
+                    <span class="option-label">Giving feedback.</span>
+                </div>
+                <div class="option">
+                    <span>b.</span>
+                    <span class="option-label">Communicating with people effectively.</span>
+                </div>
+                <div class="option">
+                    <span>c.</span>
+                    <span class="option-label">Understanding what people need and provide.</span>
+                </div>
+                <div class="option">
+                    <span>d.</span>
+                    <span class="option-label">Understanding clearly and giving feedback on time.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            
+            <button class="next-button">Submit</button>
+        </div>
+    </div>
+</body>
+</html>
